@@ -1,5 +1,6 @@
 import os
 from core.search import Search
+import argparse
 
 # Config Settings
 model_config = {
@@ -35,19 +36,26 @@ topo_config = {
     "gpus_per_server": 16,
 }
 
-search = Search(
-    main_dir=os.getcwd(),
-    topo_file=None,
-    world_size=1024,
-    model_config=model_config["test"],
-    topo_config=topo_config,
-    search_sql=None,
-    study_name="real-1024-gpu",
-    gpu_type="L20",
-    gpu_memory=None,
-    all_trials=20,
-    parallel=1,
-    search_func="optuna",
-)
-search.search()
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--world_size", type=int, default=1024)
+    parser.add_argument("--model", type=str, default="gpt3_175B")
+    parser.add_argument("--trial", type=int, default=8100)
+    args = parser.parse_args()
+
+    search = Search(
+        main_dir=os.getcwd(),
+        topo_file=None,
+        world_size=args.world_size,
+        model_config=model_config[args.model],
+        topo_config=topo_config,
+        search_sql=None,
+        study_name="real-1024-gpu",
+        gpu_type="L20",
+        gpu_memory=None,
+        all_trials=args.trial,
+        parallel=1,
+        search_func="optuna",
+    )
+    search.search()
 
