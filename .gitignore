@@ -182,3 +182,4 @@ times.json
 log/**/*.txt
 ## 忽略启动文件
 start.sh
+.DS_Store
