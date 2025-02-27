@@ -30,10 +30,11 @@ class Simulator(MultiConfig):
         cmd = \
 f"""
 cd /opt/tiger/Megatron-LM/ && \\
-MSCCL_ALGO_DIR=/opt/tiger/llmxml \\
 NCCL_DEBUG_FILE=`pwd`/nccl_debug.%h.%p \\
 LD_PRELOAD=/opt/tiger/msccl/build/lib/libnccl.so.2.23.4 \\
-NCCL_DEBUG=INFO NCCL_DEBUG_SUBSYS=INIT,COLL \\
+NCCL_DEBUG=INFO \\
+NCCL_DEBUG_SUBSYS=INIT,COLL \\
+NCCL_ALGO=allgather:{self.all_gather};reducescatter:{self.reduce_scatter} \\
 bash -x examples/pretrain_gpt_distributed_with_mp_13B.sh \\
     --num-attention-heads {self.model_config["num_attention_heads"]} \\
     --tensor-model-parallel-size {self.tp} \\

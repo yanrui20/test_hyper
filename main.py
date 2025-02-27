@@ -40,7 +40,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--world_size", type=int, default=1024)
     parser.add_argument("--model", type=str, default="gpt3_175B")
-    parser.add_argument("--trial", type=int, default=8100)
+    parser.add_argument("--trial", type=int, default=3600)
     args = parser.parse_args()
 
     search = Search(

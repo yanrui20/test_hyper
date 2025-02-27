@@ -25,7 +25,7 @@ class OptunaConfig(Config):
         mbs_index = trial.suggest_int('mbs_index', 0, len(mbs_factors) - 1)
         self.micro_batch_size = mbs_factors[mbs_index]
         ## 选择集合通信算法
-        cc_algorithms = ['ring', 'doubleBinaryTree', 'halvingDoubling']
+        cc_algorithms = ['ring', 'tree']
         all_gather_index = trial.suggest_int('all_gather_index', 0, len(cc_algorithms) - 1)
         self.all_gather = cc_algorithms[all_gather_index]
         reduce_scatter_index = trial.suggest_int('reduce_scatter_index', 0, len(cc_algorithms) - 1)
