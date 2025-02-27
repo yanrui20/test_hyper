@@ -1,0 +1,1 @@
+from .multi_config import MultiConfig
