@@ -52,7 +52,6 @@ bash -x examples/pretrain_gpt_distributed_with_mp_13B.sh \\
 
     def run(self):
         self.check_restrict()
-        return
         if self.error:
             return
         cmd = self.megatron_cmd()
