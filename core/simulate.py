@@ -11,6 +11,9 @@ class Simulator(MultiConfig):
         self.error = ""
     
     def check_restrict(self):
+        if self.dp == 0:
+            self.error += "self.dp == 0;"
+            return
         if self.tp * self.dp * self.pp != self.world_size:
             self.error += "self.tp * self.dp * self.pp != self.world_size; "
         if self.global_batch_size % (self.dp * self.micro_batch_size) != 0:
@@ -49,6 +52,7 @@ bash -x examples/pretrain_gpt_distributed_with_mp_13B.sh \\
 
     def run(self):
         self.check_restrict()
+        return
         if self.error:
             return
         cmd = self.megatron_cmd()
