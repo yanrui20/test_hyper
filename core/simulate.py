@@ -1,6 +1,7 @@
 from .config import MultiConfig
 import subprocess
 import re
+import os
 
 class Simulator(MultiConfig):
     def __init__(self, args, **extra_kwargs):
@@ -27,14 +28,9 @@ class Simulator(MultiConfig):
             self.error += "gpus_per_server % tp != 0; "
     
     def megatron_cmd(self):
-        cmd = \
+        return \
 f"""
 cd /opt/tiger/Megatron-LM/ && \\
-NCCL_DEBUG_FILE=`pwd`/nccl_debug.%h.%p \\
-NCCL_DEBUG=INFO \\
-NCCL_DEBUG_SUBSYS=INIT,COLL \\
-CUDA_DEVICE_MAX_CONNECTIONS=1 \\
-NCCL_ALGO="allgather:{self.all_gather};reducescatter:{self.reduce_scatter}" \\
 bash -x examples/pretrain_gpt_distributed_with_mp_13B.sh \\
     --num-attention-heads {self.model_config["num_attention_heads"]} \\
     --tensor-model-parallel-size {self.tp} \\
@@ -49,14 +45,27 @@ bash -x examples/pretrain_gpt_distributed_with_mp_13B.sh \\
     --train-iters 5 \\
     --eval-iters 0 2>&1 | tee {self.train_log_dir}/train_id_{self.sim_id}.log
 """
-        return cmd
+    def megatron_env(self):
+        env = dict(os.environ)
+        env["NCCL_DEBUG_FILE"] = f"{self.log_dir}/nccl_debug.%h.%p"
+        env["NCCL_DEBUG"] = "INFO"
+        env["NCCL_DEBUG_SUBSYS"] = "INIT,COLL"
+        env["CUDA_DEVICE_MAX_CONNECTIONS"] = "1"
+        env["NCCL_ALGO"] = f"allgather:{self.all_gather};reducescatter:{self.reduce_scatter}"
+        return env
 
     def run(self):
         self.check_restrict()
         if self.error:
             return
-        cmd = self.megatron_cmd()
-        result = subprocess.run(cmd, shell=True, executable='/bin/bash', capture_output=True, text=True)
+        result = subprocess.run(
+            self.megatron_cmd(), 
+            env=self.megatron_env(), 
+            shell=True, 
+            executable='/bin/bash', 
+            capture_output=True, 
+            text=True,
+        )
         iteration_times = re.findall(r'elapsed time per iteration \(ms\):\s*([\d.]+)', result.stdout)
         if iteration_times:
             self.sim_time = sum(map(float, iteration_times)) / len(iteration_times)
