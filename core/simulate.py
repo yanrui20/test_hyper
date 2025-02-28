@@ -41,7 +41,7 @@ bash -x examples/pretrain_gpt_distributed_with_mp_13B.sh \\
     --pipeline-model-parallel-size {self.pp} \\
     --micro-batch-size {self.micro_batch_size} \\
     --num-layers-per-virtual-pipeline-stage {self.vpp} \\
-    --micro_batch_size {self.micro_batch_size} \\
+    --micro-batch-size {self.micro_batch_size} \\
     --global-batch-size {self.model_config["global_batch_size"]} \\
     --sequence-parallel \\
     --use-flash-attn \\
