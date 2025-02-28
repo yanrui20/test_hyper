@@ -60,3 +60,10 @@ bash -x examples/pretrain_gpt_distributed_with_mp_13B.sh \\
         iteration_times = re.findall(r'elapsed time per iteration \(ms\):\s*([\d.]+)', result.stdout)
         if iteration_times:
             self.sim_time = sum(map(float, iteration_times)) / len(iteration_times)
+        else:
+            print(f"::::::::DEBUG_START_trila_{self.sim_id}::::::::")
+            print(f"::::::::STDOUT_trila_{self.sim_id}::::::::")
+            print(result.stdout)
+            print(f"::::::::STDERR_trila_{self.sim_id}::::::::")
+            print(result.stderr)
+            print(f"::::::::DEBUG_END_trila_{self.sim_id}::::::::")
