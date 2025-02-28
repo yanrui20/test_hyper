@@ -31,7 +31,6 @@ class Simulator(MultiConfig):
 f"""
 cd /opt/tiger/Megatron-LM/ && \\
 NCCL_DEBUG_FILE=`pwd`/nccl_debug.%h.%p \\
-LD_PRELOAD=/opt/tiger/msccl/build/lib/libnccl.so.2.23.4 \\
 NCCL_DEBUG=INFO \\
 NCCL_DEBUG_SUBSYS=INIT,COLL \\
 CUDA_DEVICE_MAX_CONNECTIONS=1 \\
