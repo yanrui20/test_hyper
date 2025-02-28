@@ -40,7 +40,7 @@ bash -x examples/pretrain_gpt_distributed_with_mp_13B.sh \\
     --tensor-model-parallel-size {self.tp} \\
     --pipeline-model-parallel-size {self.pp} \\
     --micro-batch-size {self.micro_batch_size} \\
-    --num_layers_per_virtual_pipeline_stage {self.vpp} \\
+    --num-layers-per-virtual-pipeline-stage {self.vpp} \\
     --micro_batch_size {self.micro_batch_size} \\
     --global-batch-size {self.model_config["global_batch_size"]} \\
     --sequence-parallel \\
