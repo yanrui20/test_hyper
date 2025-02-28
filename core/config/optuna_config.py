@@ -11,7 +11,7 @@ class OptunaConfig(Config):
         tp_index = trial.suggest_int('tp_index', 0, len(tp_factors) - 1)
         self.tp = tp_factors[tp_index]
         ## 选择pp
-        pp_factors = [2, 3, 4, 6, 8, 12, 16, 24, 48]
+        pp_factors = [3, 4, 6, 8, 12, 16, 24, 48]
         pp_index = trial.suggest_int('pp_index', 0, len(pp_factors) - 1)
         self.pp = pp_factors[pp_index]
         ## 得到dp
