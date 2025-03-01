@@ -30,6 +30,7 @@ class Simulator(MultiConfig):
     def megatron_cmd(self):
         return \
 f"""
+env
 cd /opt/tiger/Megatron-LM/ && \\
 bash -x examples/pretrain_gpt_distributed_with_mp_13B.sh \\
     --num-layers {self.num_layers} \\
@@ -55,6 +56,7 @@ bash -x examples/pretrain_gpt_distributed_with_mp_13B.sh \\
         env["NCCL_DEBUG_SUBSYS"] = "INIT,COLL"
         env["CUDA_DEVICE_MAX_CONNECTIONS"] = "1"
         env["NCCL_ALGO"] = f"allgather:{self.all_gather};reducescatter:{self.reduce_scatter}"
+        env["CUDA_VISIBLE_DEVICES"] = f"{",".join([i for i in range(self.world_size)])}"
         return env
 
     def run(self):
