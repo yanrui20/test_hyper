@@ -10,7 +10,7 @@ class OptunaConfig(Config):
             tp_index = trial.suggest_int('tp_index', 0, 2) ## 无用
             self.tp = 4
             self.pp = 4
-            self.dp = 1
+            self.dp = 2
             self.vpp = 2
             self.micro_batch_size = 1
             self.all_gather = 'ring'
