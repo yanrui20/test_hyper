@@ -71,6 +71,10 @@ bash -x examples/pretrain_gpt_distributed_with_mp_13B.sh \\
             self.sim_time = sum(map(float, iteration_times)) / len(iteration_times)
         else:
             print(f"::::::::DEBUG_START_trial_{self.sim_id}::::::::")
+            print(f"::::::::CMD_trial_{self.sim_id}::::::::")
+            print(self.megatron_cmd())
+            print(f"::::::::ENV_trial_{self.sim_id}::::::::")
+            print(self.megatron_env())
             print(f"::::::::STDOUT_trial_{self.sim_id}::::::::")
             print(result.stdout)
             print(f"::::::::STDERR_trial_{self.sim_id}::::::::")
