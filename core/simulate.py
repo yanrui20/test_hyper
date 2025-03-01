@@ -32,13 +32,16 @@ class Simulator(MultiConfig):
 f"""
 cd /opt/tiger/Megatron-LM/ && \\
 bash -x examples/pretrain_gpt_distributed_with_mp_13B.sh \\
+    --num-layers {self.num_layers} \\
+    --hidden-size {self.model_config["hidden_size"]} \\
     --num-attention-heads {self.model_config["num_attention_heads"]} \\
+    --seq-length {self.model_config["seq_length"]} \\
+    --global-batch-size {self.model_config["global_batch_size"]} \\
     --tensor-model-parallel-size {self.tp} \\
     --pipeline-model-parallel-size {self.pp} \\
     --micro-batch-size {self.micro_batch_size} \\
     --num-layers-per-virtual-pipeline-stage {self.vpp} \\
     --micro-batch-size {self.micro_batch_size} \\
-    --global-batch-size {self.model_config["global_batch_size"]} \\
     --sequence-parallel \\
     --use-flash-attn \\
     --use-distributed-optimizer \\
