@@ -28,7 +28,7 @@ model_config = {
         "seq_length": 2048,
         "max_position_embeddings": 2048,
         "vocab_size": 32000,
-        "global_batch_size": 64,
+        "global_batch_size": 16,
     },
 }
 

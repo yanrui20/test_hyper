@@ -6,6 +6,17 @@ class OptunaConfig(Config):
 
     def search_config(self, **extra_kwargs):
         trial = extra_kwargs.get("trial")
+        if self.model_config["model_name"] == "test":
+            tp_index = trial.suggest_int('tp_index', 0, 2) ## 无用
+            self.tp = 4
+            self.pp = 2
+            self.dp = 2
+            self.vpp = 2
+            self.micro_batch_size = 1
+            self.all_gather = 'ring'
+            self.reduce_scatter = 'ring'
+            return
+
         ## 选择tp, 暂时只在机内搜索
         tp_factors = [1, 2, 4, 8, 16]
         tp_index = trial.suggest_int('tp_index', 0, len(tp_factors) - 1)
