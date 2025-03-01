@@ -9,8 +9,8 @@ class OptunaConfig(Config):
         if self.model_config["model_name"] == "test":
             tp_index = trial.suggest_int('tp_index', 0, 2) ## 无用
             self.tp = 4
-            self.pp = 2
-            self.dp = 2
+            self.pp = 4
+            self.dp = 1
             self.vpp = 2
             self.micro_batch_size = 1
             self.all_gather = 'ring'
